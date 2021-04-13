@@ -1,0 +1,6 @@
+generated/
+node_modules/
+build/
+package-lock.json
+test-queries
+deploy.sh

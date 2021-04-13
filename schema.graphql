@@ -1,0 +1,36 @@
+type Vault @entity {
+  "address of the vault"
+  id: ID!
+  withdrawals: [Withdrawal!]! @derivedFrom(field: "vault")
+  deposits: [Deposit!]! @derivedFrom(field: "vault")
+}
+
+type User @entity{
+  "address of user account"
+  id: ID!
+  withdrawals: [Withdrawal!]! @derivedFrom(field: "user")
+  deposits: [Deposit!]! @derivedFrom(field: "user")
+}
+
+type Withdrawal @entity {
+  id: ID!
+  timestamp: BigInt!
+  vault: Vault!
+  user: User!
+  amount: BigInt!
+}
+
+type Deposit @entity {
+  id: ID!
+  timestamp: BigInt!
+  vault: Vault!
+  user: User!
+  amount: BigInt!
+}
+
+type Token @entity {
+  id: ID!
+  name: String!
+  symbol: String!
+  decimals: Int!
+}
