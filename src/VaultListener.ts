@@ -1,11 +1,9 @@
-import { BigInt } from "@graphprotocol/graph-ts"
-
 // contract imports
 import {
   Vault     as VaultContract,
   Withdraw  as WithdrawEvent,
   Deposit   as DepositEvent,
-} from "../generated/Vault/Vault"
+} from "../generated/VaultListener/Vault"
 
 // schema imports
 import {

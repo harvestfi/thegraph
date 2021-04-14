@@ -1,2 +1,2 @@
 # Harvest Finance Subgraph
-test
+Currently work in progress to implement a subgraph for Harvest Finance

@@ -3,11 +3,46 @@ schema:
   file: ./schema.graphql
 dataSources:
   - kind: ethereum/contract
-    name: Vault
+    name: ControllerListener
     network: mainnet
     source:
-      address: "0xf0358e8c3CD5Fa238a29301d0bEa3D63A17bEdBE"
-      startBlock: 12221063
+      address: "0x222412af183BCeAdEFd72e4Cb1b71f1889953b1C"
+      startBlock: 10770087
+      abi: Controller
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.4
+      language: wasm/assemblyscript
+      entities:
+        - Vault
+      abis:
+        - name: Controller
+          file: ./abis/contracts_manual/Controller.json
+      callHandlers:
+        - function: addVaultAndStrategy(address,address)
+          handler: handleAddVaultAndStrategy
+          # Available call functions:
+          #   - addHardWorker(address)
+          #   - addToGreyList(address)
+          #   - addVaultAndStrategy(address,address)
+          #   - doHardWork(address)
+          #   - hasVault(address)
+          #   - notifyFee(address,uint256)
+          #   - rebalance(address)
+          #   - removeFromGreyList(address)
+          #   - removeHardWorker(address)
+          #   - salvage(address,uint256)
+          #   - salvageStrategy(address,address,uint256)
+          #   - setFeeRewardForwarder(address)
+          #   - setHardRewards(address)
+          #   - setStorage(address)
+      file: ./src/VaultListener.ts
+
+templates:
+  - kind: ethereum/contract
+    name: VaultListener
+    network: mainnet
+    source:
       abi: Vault
     mapping:
       kind: ethereum/events
@@ -37,4 +72,4 @@ dataSources:
         #   handler: handleTransfer
         - event: Withdraw(indexed address,uint256)
           handler: handleWithdraw
-      file: ./src/mapping.ts
+      file: ./src/VaultListener.ts
