@@ -1,8 +1,23 @@
 type Vault @entity {
   "address of the vault"
   id: ID!
+  "block and timestamp at which the vault was registered at the controller"
+  reg_block: BigInt!
+  reg_timestamp: BigInt!
+  "current strategy"
+  curr_strat: Strategy!
   withdrawals: [Withdrawal!]! @derivedFrom(field: "vault")
   deposits: [Deposit!]! @derivedFrom(field: "vault")
+}
+
+type Strategy @entity {
+  "Strategy address"
+  id: ID!
+  "block and timestamp at which the strategy was registered on the vault"
+  reg_block: BigInt!
+  reg_timestamp: BigInt!
+  "Vault it belongs to"
+  vault: Vault!
 }
 
 type User @entity{
