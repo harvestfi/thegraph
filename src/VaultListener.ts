@@ -90,11 +90,8 @@ import {
 export function handleWithdraw(event: WithdrawEvent): void {
   //let vault_contract = VaultContract.bind(event.address)
 
+  // the fault is guaranteed to exist at this point
   let vault = Vault.load(event.address.toHex())
-  if (vault == null) {
-    vault = new Vault(event.address.toHex())
-    vault.save()
-  }
 
   let user = User.load(event.params.beneficiary.toHex())
   if (user == null) {
@@ -111,11 +108,8 @@ export function handleWithdraw(event: WithdrawEvent): void {
 
 }
 export function handleDeposit(event: DepositEvent): void {
+  // the fault is guaranteed to exist at this point
   let vault = Vault.load(event.address.toHex())
-  if (vault == null) {
-    vault = new Vault(event.address.toHex())
-    vault.save()
-  }
 
   let user = User.load(event.params.beneficiary.toHex())
   if (user == null) {

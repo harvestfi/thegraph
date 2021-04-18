@@ -17,6 +17,8 @@ export function handleAddVaultAndStrategy(call: AddVaultAndStrategyCall): void {
   let vault_addr = call.inputs._vault
   let strategy_addr = call.inputs._strategy
 
+  // reverted transactions will not trigger call handelers (no need to check)
+  // we leave it for now just incase and can verify at a different point
   if (BigInt.fromUnsignedBytes(vault_addr) != BigInt.fromI32(0) &&
       BigInt.fromUnsignedBytes(strategy_addr) != BigInt.fromI32(0)){
     let vault = Vault.load(vault_addr.toHex())
@@ -30,12 +32,16 @@ export function handleAddVaultAndStrategy(call: AddVaultAndStrategyCall): void {
       strategy.reg_timestamp = call.block.timestamp
       strategy.vault = vault.id
 
-      vault.curr_strat = strategy.id
+      vault.curr_strategy = strategy.id
 
       vault.save()
       strategy.save()
 
       VaultListener.create(vault_addr)
     }
+  } else {
+    log.warning('handleAddVaultAndStrategy called with invalid fields. Transaction id: {}', [
+        call.transaction.hash.toHex(),
+      ])
   }
 }
