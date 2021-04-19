@@ -6,6 +6,8 @@ type Vault @entity {
   reg_timestamp: BigInt!
   "current strategy"
   curr_strategy: Strategy!
+  "all strategies"
+  strategies: [Strategy!]! @derivedFrom(field: "vault")
   "token locked up in vault"
   underlying: Token!
   "returned share token"
