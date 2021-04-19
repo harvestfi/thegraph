@@ -1,9 +1,9 @@
 // contract imports
 import {
-  Vault     as VaultContract,
+  VaultContract,
   Withdraw  as WithdrawEvent,
   Deposit   as DepositEvent,
-} from "../generated/VaultListener/Vault"
+} from "../generated/templates/VaultListener/VaultContract"
 
 // schema imports
 import {
