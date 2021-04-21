@@ -149,13 +149,23 @@ export function handleStrategyChanged(event: StrategyChangedEvent): void {
   let vault_addr = event.address
   // the vault is guaranteed to exist at this point
   let vault = Vault.load(vault_addr.toHex())
-  // strategy should exist because it has been created by StrategyAnnounced
+  // strategy should exist because it has been created by StrategyAnnounced (not true see down)
   let new_strategy = Strategy.load(event.params.newStrategy.toHex())
   if (new_strategy == null) {
     // should be impossible to reach
+    // edit: turns out it isn't. Special cases exist where the strategy has not
+    // been initialized yet and is set to addr 0. In this special case
+    // handle strategyChangedEvent can be emitted without a prior StrategyAnnounced
+    // event. So we need to account for this here. Example of such a transaction:
+    // https://etherscan.io/tx/0x4e335f00636cebba15760e50b0329f57418ebd59e7647708b80a88f7b43cc67b#eventlog
     log.warning('New strategy doesn\'t exist yet event though it should? {}', [
         event.transaction.hash.toHex(),
       ])
+    new_strategy = new Strategy(event.params.newStrategy.toHex())
+    new_strategy.reg_block = event.block.number
+    new_strategy.reg_timestamp = event.block.timestamp
+    new_strategy.vault = vault.id
+    new_strategy.save()
   }
   vault.curr_strategy = new_strategy.id
   vault.save()
