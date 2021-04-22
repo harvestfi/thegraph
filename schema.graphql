@@ -12,6 +12,8 @@ type Vault @entity {
   underlying: Token!
   "returned share token"
   f_token: Token!
+  "hard work done on vault"
+  do_hard_works: [DoHardWork!]! @derivedFrom(field: "vault")
   withdrawals: [Withdrawal!]! @derivedFrom(field: "vault")
   deposits: [Deposit!]! @derivedFrom(field: "vault")
 }
@@ -24,6 +26,23 @@ type Strategy @entity {
   reg_timestamp: BigInt!
   "vault it belongs to"
   vault: Vault!
+  "Hard work done by strategy"
+  do_hard_works: [DoHardWork!]! @derivedFrom(field: "strategy")
+}
+
+type DoHardWork @entity {
+  "Transaction hash"
+  id: ID!
+  block: BigInt!
+  timestamp: BigInt!
+  "vault hard work was done on"
+  vault: Vault!
+  "strategy that was used for hardwork"
+  strategy: Strategy!
+  "share price before doHardWork call"
+  old_share_price: BigInt!
+  "share price after doHardWork call"
+  new_share_price: BigInt!
 }
 
 type User @entity{
