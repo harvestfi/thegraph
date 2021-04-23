@@ -60,7 +60,7 @@ For example a Vault entity contains, as of writing this, the following fields:
 These are all fields that can be queried within a vault entity. As an example take `reg_block: BigInt!` which is named reg_block and contains a BigInt, the exclamation mark indicates that the field cannot return null and always exists. The following field `curr_strategy: Strategy!` returns a Strategy entity and has its respective fields that can be queried, these fields can be inspected by looking at the content of the Strategy entity. As you may observe some of the fields objects are enclosed by brackets, these are lists and therefore can return multiple values. As an example `strategies: [Strategy!]!` contain all strategies that were at some point attached to the vault. Although this field has both exclamation marks, it only means that this list exists and if it contains a item it is guaranteed to be a Strategy, but it doesn't guarantee a Strategy will be contained within the list(in short - the list could be empty)
 
 ### Query Entry Points
-Now to finally construct a query, we first need an 'entry point' into the datastore. By convention two entry points exists for each entity contained within the data store. These are the plural and singular forms, for example `vaults` and `vault` are the respective entry points for the Vault entity and similarly `doHardWorks` and 'doHardWork' exist for the DoHardWork entity. These entry points can be seen as query definitions as seen here:
+Now to finally construct a query, we first need an 'entry point' into the datastore. By convention two entry points exists for each entity contained within the data store. These are the plural and singular forms, for example `vaults` and `vault` are the respective entry points for the Vault entity and similarly `doHardWorks` and `doHardWork` exist for the DoHardWork entity. These entry points can be seen as query definitions as seen here:
 
     type Query {
       vault(id: ID!): Vault
@@ -171,7 +171,7 @@ This use the strategies field in a vault entity to find the 5 latest created str
 ### Query Examples
 Here a couple of examples will be given to hopefully show the use cases and make the previous information come full circle.
 
-We are going to take two separate approaches to query the 10 most recent DoHardWorks for a specific vault. The first example will use the `vault` entry as seen here:
+We are going to take two separate approaches to query the 10 most recent DoHardWorks for a specific vault. The first example will use the `vault` entry point as seen here:
 
     {
       vault(id: "0x02d77f6925f4ef89ee2c35eb3dd5793f5695356f"){
