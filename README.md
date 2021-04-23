@@ -116,7 +116,7 @@ So know we know how to query single objects, but what if we want to query a list
 This will simply return 'all' vaults, however a single query is limited to a 100 entities (I believe, don't quote me on that) so it will return a list of 100 vaults with their ids. To control the amount of vaults it will query you can use the following:
 
     {
-    	vaults(first: 5){
+      vaults(first: 5){
         id
       }
     }
@@ -124,7 +124,7 @@ This will simply return 'all' vaults, however a single query is limited to a 100
 This will simply return the 'first' 5 vaults, be aware that first means in terms of their id, not the creation date of the entity or the 'reg_timestamp'. To paginate them and retrieve the following 5 entries use the following syntax:
 
     {
-    	vaults(first: 5, skip:5){
+      vaults(first: 5, skip:5){
         id
       }
     }
@@ -229,4 +229,4 @@ The previous curl is equivalent to following query, which is the same thing but 
      }
     }
 
-As you can see the construction of raw requests can be somewhat cumbersome, especially if you want to make them generic over variables. 
+As you can see the construction of raw requests can be somewhat cumbersome, especially if you want to make them generic over variables.
