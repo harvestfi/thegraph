@@ -1,4 +1,4 @@
-import { log } from '@graphprotocol/graph-ts'
+import { log  } from '@graphprotocol/graph-ts'
 
 // contract imports
 import {
@@ -17,6 +17,9 @@ import {
   Deposit,
   Strategy
 } from "../generated/schema"
+
+// helper function import
+import { createStrategy } from "./utils/Strategy"
 
 // export function handleApproval(event: Approval): void {
 //   // Entities can be loaded from the store using a string ID; this ID
@@ -137,21 +140,23 @@ export function handleStrategyAnnounced(event: StrategyAnnouncedEvent): void {
 
   let strategy = Strategy.load(strategy_addr.toHex())
   if (strategy == null){
-    strategy = new Strategy(strategy_addr.toHex())
-    strategy.reg_block = event.block.number
-    strategy.reg_timestamp = event.block.timestamp
-    strategy.vault = vault.id
-    strategy.save()
+    strategy = createStrategy(strategy_addr, vault_addr, event.block)
+    // strategy = new Strategy(strategy_addr.toHex())
+    // strategy.reg_block = event.block.number
+    // strategy.reg_timestamp = event.block.timestamp
+    // strategy.vault = vault.id
+    // strategy.save()
   }
 }
 
 export function handleStrategyChanged(event: StrategyChangedEvent): void {
   let vault_addr = event.address
+  let strategy_addr = event.params.newStrategy
   // the vault is guaranteed to exist at this point
   let vault = Vault.load(vault_addr.toHex())
   // strategy should exist because it has been created by StrategyAnnounced (not true see down)
-  let new_strategy = Strategy.load(event.params.newStrategy.toHex())
-  if (new_strategy == null) {
+  let strategy = Strategy.load(strategy_addr.toHex())
+  if (strategy == null) {
     // should be impossible to reach
     // edit: turns out it isn't. Special cases exist where the strategy has not
     // been initialized yet and is set to addr 0. In this special case
@@ -161,13 +166,14 @@ export function handleStrategyChanged(event: StrategyChangedEvent): void {
     log.warning('New strategy doesn\'t exist yet event though it should? {}', [
         event.transaction.hash.toHex(),
       ])
-    new_strategy = new Strategy(event.params.newStrategy.toHex())
-    new_strategy.reg_block = event.block.number
-    new_strategy.reg_timestamp = event.block.timestamp
-    new_strategy.vault = vault.id
-    new_strategy.save()
+    strategy = createStrategy(strategy_addr, vault_addr, event.block)
+    // new_strategy = new Strategy(event.params.newStrategy.toHex())
+    // new_strategy.reg_block = event.block.number
+    // new_strategy.reg_timestamp = event.block.timestamp
+    // new_strategy.vault = vault.id
+    // new_strategy.save()
   }
-  vault.curr_strategy = new_strategy.id
+  vault.curr_strategy = strategy.id
   vault.save()
 }
 
