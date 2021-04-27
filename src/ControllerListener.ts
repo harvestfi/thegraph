@@ -66,10 +66,6 @@ export function handleAddVaultAndStrategy(call: AddVaultAndStrategyCall): void {
 
     let vault = Vault.load(vault_addr.toHex())
     if (vault == null) {
-
-      // let number = call.block.number
-      // let timestamp = call.block.timestamp
-
       vault = createVaultAndStrategy(vault_addr, strategy_addr, call.block)
 
     }
@@ -81,57 +77,3 @@ export function handleAddVaultAndStrategy(call: AddVaultAndStrategyCall): void {
       ])
   }
 }
-
-
-// function createVaultAndStrategy(
-//   vault_addr: Address,
-//   strategy_addr: Address,
-//   number: BigInt,
-//   timestamp: BigInt): Vault
-// {
-//
-//   let vault_contract = VaultContract.bind(vault_addr)
-//   let underlying_addr = vault_contract.underlying()
-//
-//   let underlying_token = loadOrCreateERC20DetailedToken(underlying_addr)
-//   let f_token = loadOrCreateERC20DetailedToken(vault_addr)
-//
-//   let vault = new Vault(vault_addr.toHex())
-//   vault.reg_block = number
-//   vault.reg_timestamp = timestamp
-//   vault.underlying = underlying_token.id
-//   vault.f_token = f_token.id
-//
-//   // strategy cannot exist yet because it is unique to a vault and the only way
-//   // for the enitity to be created is by getting here or the vault was already
-//   // being listened to, which means the vault already exist so we wouldnt be here
-//   let strategy = new Strategy(strategy_addr.toHex())
-//   strategy.reg_block = number
-//   strategy.reg_timestamp = timestamp
-//   strategy.vault = vault.id
-//
-//   vault.curr_strategy = strategy.id
-//
-//   vault.save()
-//   strategy.save()
-//
-//   VaultListener.create(vault_addr)
-//   return vault
-// }
-
-
-
-// function loadOrCreateERC20DetailedToken(token_address: Address): Token{
-//   let token_contract = ERC20DetailedContract.bind(token_address)
-//   let token = Token.load(token_address.toHex())
-//   if (token == null){
-//     token = new Token(token_address.toHex())
-//     token.name = token_contract.name()
-//     token.symbol = token_contract.symbol()
-//     token.decimals = token_contract.decimals()
-//     token.save()
-//   }
-//   // we can cast it as token becaus we either create it or load it
-//   // so reciever is guaranteed a token object
-//   return token as Token
-// }

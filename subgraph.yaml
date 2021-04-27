@@ -6,8 +6,8 @@ dataSources:
     name: ControllerListener
     network: mainnet
     source:
-      address: "0x222412af183BCeAdEFd72e4Cb1b71f1889953b1C" # created at block 10770087. 11068088 test number for new strategies
-      startBlock: 10770087 #most recent created 12135514 https://etherscan.io/address/0x0ca19915439c12b16c0a8c119ec05fa801365a15#code
+      address: "0x222412af183BCeAdEFd72e4Cb1b71f1889953b1C"
+      startBlock: 10770087
       abi: ControllerContract
     mapping:
       kind: ethereum/events
@@ -30,21 +30,6 @@ dataSources:
       callHandlers:
         - function: addVaultAndStrategy(address,address)
           handler: handleAddVaultAndStrategy
-          # Available call functions:
-          #   - addHardWorker(address)
-          #   - addToGreyList(address)
-          #   - addVaultAndStrategy(address,address)
-          #   - doHardWork(address)
-          #   - hasVault(address)
-          #   - notifyFee(address,uint256)
-          #   - rebalance(address)
-          #   - removeFromGreyList(address)
-          #   - removeHardWorker(address)
-          #   - salvage(address,uint256)
-          #   - salvageStrategy(address,address,uint256)
-          #   - setFeeRewardForwarder(address)
-          #   - setHardRewards(address)
-          #   - setStorage(address)
       file: ./src/ControllerListener.ts
 
 templates:
@@ -67,18 +52,12 @@ templates:
         - name: VaultContract
           file: ./abis/contracts/base/Vault.sol/Vault.json
       eventHandlers:
-        # - event: Approval(indexed address,indexed address,uint256)
-        #   handler: handleApproval
         - event: Deposit(indexed address,uint256)
           handler: handleDeposit
-        # - event: Invest(uint256)
-        #   handler: handleInvest
         - event: StrategyAnnounced(address,uint256)
           handler: handleStrategyAnnounced
         - event: StrategyChanged(address,address)
           handler: handleStrategyChanged
-        # - event: Transfer(indexed address,indexed address,uint256)
-        #   handler: handleTransfer
         - event: Withdraw(indexed address,uint256)
           handler: handleWithdraw
       file: ./src/VaultListener.ts
@@ -101,9 +80,4 @@ templates:
       eventHandlers:
         - event: ProfitAndBuybackLog(uint256,uint256,uint256)
           handler: handleProfitAndBuybackLog
-      # - Liquidating(address,uint256)
-      # - ProfitAndBuybackLog(uint256,uint256,uint256)
-      # - ProfitLogInReward(uint256,uint256,uint256)
-      # - ProfitsNotCollected(address)
-
       file: ./src/StrategyListener.ts
