@@ -52,7 +52,7 @@ type User @entity{
   deposits: [Deposit!]! @derivedFrom(field: "user")
 }
 
-type Withdrawal @entity {
+type Withdrawal implements ETH @entity {
   id: ID!
   timestamp: BigInt!
   vault: Vault!
@@ -60,9 +60,8 @@ type Withdrawal @entity {
   amount: BigInt!
 }
 
-type Deposit @entity {
+type Deposit implements ETH @entity {
   id: ID!
-  timestamp: BigInt!
   vault: Vault!
   user: User!
   amount: BigInt!
