@@ -52,7 +52,7 @@ type User @entity{
   deposits: [Deposit!]! @derivedFrom(field: "user")
 }
 
-type Withdrawal implements ETH @entity {
+type Withdrawal @entity {
   id: ID!
   timestamp: BigInt!
   vault: Vault!
@@ -60,8 +60,9 @@ type Withdrawal implements ETH @entity {
   amount: BigInt!
 }
 
-type Deposit implements ETH @entity {
+type Deposit @entity {
   id: ID!
+  timestamp: BigInt!
   vault: Vault!
   user: User!
   amount: BigInt!
@@ -76,33 +77,20 @@ type Token @entity {
 }
 
 type Block @entity {
+  "block hash"
   id: ID!
-  hash: Bytes!
-  parent_hash: Bytes!
-  uncles_hash: Bytes!
-  author: Bytes!
-  state_root: Bytes!
-  transactions_root: Bytes!
-  receipts_root: Bytes!
   number: BigInt!
-  gas_used: BigInt!
-  gas_limit: BigInt!
   timestamp: BigInt!
-  difficulty: BigInt!
-  total_difficulty: BigInt!
-  size: BigInt
 }
 
 type Transaction @entity {
+  "transaction hash"
   id: ID!
-  hash: Bytes!
-  index: BigInt!
   from: Bytes!
   to: Bytes
   value: BigInt!
-  gas_used: BigInt!
-  gas_price: BigInt!
-  input: Bytes!
+  gasUsed: BigInt!
+  gasPrice: BigInt!
 }
 
 interface ETH {
