@@ -22,17 +22,17 @@ export function createVaultAndStrategy( vault_addr: Address, strategy_addr: Addr
   let f_token = loadOrCreateERC20DetailedToken(vault_addr)
 
   let vault = new Vault(vault_addr.toHex())
-  vault.reg_block = block.number
-  vault.reg_timestamp = block.timestamp
+  vault.regBlock = block.number
+  vault.regTimestamp = block.timestamp
   vault.underlying = underlying_token.id
-  vault.f_token = f_token.id
+  vault.fToken = f_token.id
 
   // strategy cannot exist yet because it is unique to a vault and the only way
   // for the enitity to be created is by getting here or the vault was already
   // being listened to, which means the vault already exist so we wouldnt be here
   let strategy = createStrategy(strategy_addr, vault_addr, block)
 
-  vault.curr_strategy = strategy.id
+  vault.currStrategy = strategy.id
 
   vault.save()
 

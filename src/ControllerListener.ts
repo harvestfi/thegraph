@@ -39,7 +39,7 @@ export function handleSharePriceChangeLog(event: SharePriceChangeLogEvent): void
       ])
   }
 
-  let strategy = Strategy.load(vault.curr_strategy)
+  let strategy = Strategy.load(vault.currStrategy)
   let old_share_price = event.params.oldSharePrice
   let new_share_price = event.params.newSharePrice
 
@@ -48,8 +48,8 @@ export function handleSharePriceChangeLog(event: SharePriceChangeLogEvent): void
   do_hard_work.timestamp = timestamp
   do_hard_work.vault = vault.id
   do_hard_work.strategy = strategy.id
-  do_hard_work.old_share_price = old_share_price
-  do_hard_work.new_share_price = new_share_price
+  do_hard_work.oldSharePrice = old_share_price
+  do_hard_work.newSharePrice = new_share_price
   do_hard_work.save()
 
 }

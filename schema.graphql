@@ -2,18 +2,18 @@ type Vault @entity {
   "address of the vault"
   id: ID!
   "block and timestamp on which the vault was registered at the controller"
-  reg_block: BigInt!
-  reg_timestamp: BigInt!
+  regBlock: BigInt!
+  regTimestamp: BigInt!
   "current strategy"
-  curr_strategy: Strategy!
+  currStrategy: Strategy!
   "all strategies"
   strategies: [Strategy!]! @derivedFrom(field: "vault")
   "token locked up in vault"
   underlying: Token!
   "returned share token"
-  f_token: Token!
+  fToken: Token!
   "hard work done on vault"
-  do_hard_works: [DoHardWork!]! @derivedFrom(field: "vault")
+  doHardWorks: [DoHardWork!]! @derivedFrom(field: "vault")
   withdrawals: [Withdrawal!]! @derivedFrom(field: "vault")
   deposits: [Deposit!]! @derivedFrom(field: "vault")
 }
@@ -22,12 +22,12 @@ type Strategy @entity {
   "Strategy address"
   id: ID!
   "block and timestamp on which the strategy was registered on the vault"
-  reg_block: BigInt!
-  reg_timestamp: BigInt!
+  regBlock: BigInt!
+  regTimestamp: BigInt!
   "vault it belongs to"
   vault: Vault!
   "Hard work done by strategy"
-  do_hard_works: [DoHardWork!]! @derivedFrom(field: "strategy")
+  doHardWorks: [DoHardWork!]! @derivedFrom(field: "strategy")
 }
 
 type DoHardWork @entity {
@@ -40,9 +40,9 @@ type DoHardWork @entity {
   "strategy that was used for hardwork"
   strategy: Strategy!
   "share price before doHardWork call"
-  old_share_price: BigInt!
+  oldSharePrice: BigInt!
   "share price after doHardWork call"
-  new_share_price: BigInt!
+  newSharePrice: BigInt!
 }
 
 type User @entity{

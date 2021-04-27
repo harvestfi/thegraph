@@ -95,6 +95,6 @@ export function handleStrategyChanged(event: StrategyChangedEvent): void {
     strategy = createStrategy(strategy_addr, vault_addr, event.block)
 
   }
-  vault.curr_strategy = strategy.id
+  vault.currStrategy = strategy.id
   vault.save()
 }
