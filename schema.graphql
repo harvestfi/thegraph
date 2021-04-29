@@ -1,4 +1,4 @@
-type Vault implements ETH @entity {
+type Vault @entity {
   "address of the vault"
   id: ID!
   "timestamp vault was registered at the controller"
@@ -21,7 +21,7 @@ type Vault implements ETH @entity {
   deposits: [Deposit!]! @derivedFrom(field: "vault")
 }
 
-type Strategy implements ETH @entity {
+type Strategy @entity {
   "strategy address"
   id: ID!
   "timestamp strategy was registered on the vault"
@@ -58,7 +58,7 @@ type User @entity{
   deposits: [Deposit!]! @derivedFrom(field: "user")
 }
 
-type Withdrawal implements ETH @entity {
+type Withdrawal @entity {
   id: ID!
   timestamp: BigInt!
   block: Block!
@@ -68,7 +68,7 @@ type Withdrawal implements ETH @entity {
   amount: BigInt!
 }
 
-type Deposit implements ETH @entity {
+type Deposit @entity {
   id: ID!
   timestamp: BigInt!
   block: Block!
@@ -103,8 +103,8 @@ type Transaction @entity {
   gasPrice: BigInt!
 }
 
-interface ETH {
-  timestamp: BigInt!
-  block: Block!
-  transaction: Transaction!
-}
+# interface ETH {
+#   timestamp: BigInt!
+#   block: Block!
+#   transaction: Transaction!
+# }
