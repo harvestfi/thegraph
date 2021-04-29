@@ -1,9 +1,12 @@
-type Vault @entity {
+type Vault implements ETH @entity {
   "address of the vault"
   id: ID!
-  "block and timestamp on which the vault was registered at the controller"
-  regBlock: BigInt!
-  regTimestamp: BigInt!
+  "timestamp vault was registered at the controller"
+  timestamp: BigInt!
+  "block vault was registered at the controller"
+  block: Block!
+  "transaction vault was registered at the controller"
+  transaction: Transaction!
   "current strategy"
   currStrategy: Strategy!
   "all strategies"
@@ -18,12 +21,15 @@ type Vault @entity {
   deposits: [Deposit!]! @derivedFrom(field: "vault")
 }
 
-type Strategy @entity {
-  "Strategy address"
+type Strategy implements ETH @entity {
+  "strategy address"
   id: ID!
-  "block and timestamp on which the strategy was registered on the vault"
-  regBlock: BigInt!
-  regTimestamp: BigInt!
+  "timestamp strategy was registered on the vault"
+  timestamp: BigInt!
+  "block strategy was registered on the vault"
+  block: Block!
+  "transaction strategy was registered on the vault"
+  transaction: Transaction!
   "vault it belongs to"
   vault: Vault!
   "Hard work done by strategy"
@@ -31,7 +37,7 @@ type Strategy @entity {
 }
 
 type DoHardWork @entity {
-  "Transaction hash"
+  "transaction hash"
   id: ID!
   block: BigInt!
   timestamp: BigInt!
@@ -55,6 +61,8 @@ type User @entity{
 type Withdrawal implements ETH @entity {
   id: ID!
   timestamp: BigInt!
+  block: Block!
+  transaction: Transaction!
   vault: Vault!
   user: User!
   amount: BigInt!
@@ -62,6 +70,9 @@ type Withdrawal implements ETH @entity {
 
 type Deposit implements ETH @entity {
   id: ID!
+  timestamp: BigInt!
+  block: Block!
+  transaction: Transaction!
   vault: Vault!
   user: User!
   amount: BigInt!

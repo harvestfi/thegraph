@@ -15,11 +15,15 @@ import {
   User,
   Withdrawal,
   Deposit,
-  Strategy
+  Strategy,
+  Transaction,
+  Block
 } from "../generated/schema"
 
 // helper function import
 import { createStrategy } from "./utils/Strategy"
+import { loadOrCreateTransaction } from "./utils/Transaction"
+import { loadOrCreateBlock } from "./utils/Block"
 
 
 export function handleWithdraw(event: WithdrawEvent): void {
@@ -34,8 +38,13 @@ export function handleWithdraw(event: WithdrawEvent): void {
     user.save()
   }
 
+  let transaction = loadOrCreateTransaction(event.transaction)
+  let block = loadOrCreateBlock(event.block)
+
   let withdrawal = new Withdrawal(event.transaction.hash.toHex())
-  withdrawal.timestamp = event.block.timestamp
+  withdrawal.timestamp = block.timestamp
+  withdrawal.block  = block.id
+  withdrawal.transaction = transaction.id
   withdrawal.vault  = vault.id
   withdrawal.user   = user.id
   withdrawal.amount = event.params.amount
@@ -52,8 +61,13 @@ export function handleDeposit(event: DepositEvent): void {
     user.save()
   }
 
+  let transaction = loadOrCreateTransaction(event.transaction)
+  let block = loadOrCreateBlock(event.block)
+
   let deposit = new Deposit(event.transaction.hash.toHex())
-  deposit.timestamp = event.block.timestamp
+  deposit.timestamp = block.timestamp
+  deposit.block  = block.id
+  deposit.transaction = transaction.id
   deposit.vault  = vault.id
   deposit.user   = user.id
   deposit.amount = event.params.amount
@@ -69,7 +83,7 @@ export function handleStrategyAnnounced(event: StrategyAnnouncedEvent): void {
   let strategy = Strategy.load(strategy_addr.toHex())
   if (strategy == null){
 
-    strategy = createStrategy(strategy_addr, vault_addr, event.block)
+    strategy = createStrategy(strategy_addr, vault_addr, event.block, event.transaction)
 
   }
 }
@@ -92,7 +106,7 @@ export function handleStrategyChanged(event: StrategyChangedEvent): void {
         event.transaction.hash.toHex(),
       ])
 
-    strategy = createStrategy(strategy_addr, vault_addr, event.block)
+    strategy = createStrategy(strategy_addr, vault_addr, event.block, event.transaction)
 
   }
   vault.currStrategy = strategy.id

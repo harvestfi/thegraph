@@ -33,7 +33,7 @@ export function handleSharePriceChangeLog(event: SharePriceChangeLogEvent): void
   // these only exist if the controllercontract has ben tracked since creation
   let vault = Vault.load(vault_addr.toHex())
   if (vault == null){
-    vault = createVaultAndStrategy(vault_addr, strategy_addr, event.block)
+    vault = createVaultAndStrategy(vault_addr, strategy_addr, event.block, event.transaction)
     log.warning('Vault didn\' exist yet, should only happen in testing, transaction hash:: {}', [
         event.transaction.hash.toHex(),
       ])
@@ -66,7 +66,7 @@ export function handleAddVaultAndStrategy(call: AddVaultAndStrategyCall): void {
 
     let vault = Vault.load(vault_addr.toHex())
     if (vault == null) {
-      vault = createVaultAndStrategy(vault_addr, strategy_addr, call.block)
+      vault = createVaultAndStrategy(vault_addr, strategy_addr, call.block, call.transaction)
 
     }
   } else {
