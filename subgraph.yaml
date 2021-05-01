@@ -77,7 +77,12 @@ templates:
       abis:
         - name: StrategyContract
           file: ./abis/contracts_manual/Strategy.json
+        - name: VaultContract
+          file: ./abis/contracts/base/Vault.sol/Vault.json
       eventHandlers:
         - event: ProfitAndBuybackLog(uint256,uint256,uint256)
           handler: handleProfitAndBuybackLog
+      callHandlers:
+        - function: doHardWork()
+          handler: handleDoHardWorkCall
       file: ./src/StrategyListener.ts

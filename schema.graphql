@@ -39,16 +39,14 @@ type Strategy @entity {
 type DoHardWork @entity {
   "transaction hash"
   id: ID!
-  block: BigInt!
   timestamp: BigInt!
+  block: Block!
+  transaction: Transaction!
   "vault hard work was done on"
   vault: Vault!
   "strategy that was used for hardwork"
   strategy: Strategy!
-  "share price before doHardWork call"
-  oldSharePrice: BigInt!
-  "share price after doHardWork call"
-  newSharePrice: BigInt!
+
 }
 
 type User @entity{

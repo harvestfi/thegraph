@@ -31,26 +31,26 @@ export function handleSharePriceChangeLog(event: SharePriceChangeLogEvent): void
 
 
   // these only exist if the controllercontract has ben tracked since creation
-  let vault = Vault.load(vault_addr.toHex())
-  if (vault == null){
-    vault = createVaultAndStrategy(vault_addr, strategy_addr, event.block, event.transaction)
-    log.warning('Vault didn\' exist yet, should only happen in testing, transaction hash:: {}', [
-        event.transaction.hash.toHex(),
-      ])
-  }
-
-  let strategy = Strategy.load(vault.currStrategy)
-  let old_share_price = event.params.oldSharePrice
-  let new_share_price = event.params.newSharePrice
-
-  let do_hard_work = new DoHardWork(event.transaction.hash.toHex())
-  do_hard_work.block = number
-  do_hard_work.timestamp = timestamp
-  do_hard_work.vault = vault.id
-  do_hard_work.strategy = strategy.id
-  do_hard_work.oldSharePrice = old_share_price
-  do_hard_work.newSharePrice = new_share_price
-  do_hard_work.save()
+  // let vault = Vault.load(vault_addr.toHex())
+  // if (vault == null){
+  //   vault = createVaultAndStrategy(vault_addr, strategy_addr, event.block, event.transaction)
+  //   log.warning('Vault didn\' exist yet, should only happen in testing, transaction hash:: {}', [
+  //       event.transaction.hash.toHex(),
+  //     ])
+  // }
+  //
+  // let strategy = Strategy.load(vault.currStrategy)
+  // let old_share_price = event.params.oldSharePrice
+  // let new_share_price = event.params.newSharePrice
+  //
+  // let do_hard_work = new DoHardWork(event.transaction.hash.toHex())
+  // do_hard_work.block = number
+  // do_hard_work.timestamp = timestamp
+  // do_hard_work.vault = vault.id
+  // do_hard_work.strategy = strategy.id
+  // do_hard_work.oldSharePrice = old_share_price
+  // do_hard_work.newSharePrice = new_share_price
+  // do_hard_work.save()
 
 }
 

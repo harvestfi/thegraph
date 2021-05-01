@@ -1,5 +1,8 @@
 import { Address, ethereum } from '@graphprotocol/graph-ts'
 
+// subgraph templates
+import { StrategyListener } from '../../generated/templates'
+
 // schema imports
 import { Strategy } from "../../generated/schema"
 
@@ -24,6 +27,8 @@ export function createStrategy
   strategy.transaction = transaction.id
   strategy.vault = vault_addr.toHex()
   strategy.save()
+
+  StrategyListener.create(vault_addr)
 
   return strategy
 }
