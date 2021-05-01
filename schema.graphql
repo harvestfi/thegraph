@@ -46,7 +46,9 @@ type DoHardWork @entity {
   vault: Vault!
   "strategy that was used for hardwork"
   strategy: Strategy!
-
+  pricePerFullShare: BigInt!
+  balanceInVault: BigInt!
+  balanceWithInvestment: BigInt!
 }
 
 type User @entity{

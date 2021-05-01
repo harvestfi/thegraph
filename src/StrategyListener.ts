@@ -36,6 +36,7 @@ export function handleDoHardWorkCall(call: DoHardWorkCall): void {
   let vault_contract = VaultContract.bind(vault_addr)
   let vault = Vault.load(vault_addr.toHex())
   if (vault == null ){
+    // we are listening to a strategy that has to be registered to a vault
     log.error('Vault didnt exist in DoHardWorkCall should be impossible {}', [
           call.transaction.hash.toHex(),
         ])
@@ -45,32 +46,12 @@ export function handleDoHardWorkCall(call: DoHardWorkCall): void {
   let strategy_contract = StrategyContract.bind(strategy_addr)
   let strategy = Strategy.load(strategy_addr.toHex())
   if (strategy == null ){
+    // we are listening to a strategy so we should know of its existens
     log.error('Strategy didnt exist in DoHardWorkCall should be impossible {}', [
           call.transaction.hash.toHex(),
         ])
   }
 
-  // log.error('Strategy call.to: {} call.from: {}, trans {}', [
-  //       call.to.toHex(), call.from.toHex(), call.transaction.hash.toHex()
-  //     ])
-
-  // let strategy_contract = StrategyContract.bind(call.to)
-  // let strategy = Strategy.load(strategy_addr.toHex())
-  // if (strategy == null ){
-  //   log.error('Strategy didnt exist in DoHardWorkCall should be impossible {}', [
-  //         call.transaction.hash.toHex(),
-  //       ])
-  // }
-  //
-  // let vault_addr = strategy_contract.vault()
-  // let vault_contract = VaultContract.bind(vault_addr)
-  // let vault = Vault.load(vault_addr.toHex())
-  // if (vault == null ){
-  //   log.error('Vault didnt exist in DoHardWorkCall should be impossible {}', [
-  //         call.transaction.hash.toHex(),
-  //       ])
-  // }
-  //
   let block = loadOrCreateBlock(call.block)
   let transaction = loadOrCreateTransaction(call.transaction)
 
@@ -80,6 +61,9 @@ export function handleDoHardWorkCall(call: DoHardWorkCall): void {
   doHardWork.transaction = transaction.id
   doHardWork.vault = vault.id
   doHardWork.strategy = strategy.id
+  doHardWork.pricePerFullShare = vault_contract.getPricePerFullShare()
+  doHardWork.balanceInVault = vault_contract.underlyingBalanceInVault()
+  doHardWork.balanceWithInvestment = vault_contract.underlyingBalanceWithInvestment()
 
   doHardWork.save()
 
