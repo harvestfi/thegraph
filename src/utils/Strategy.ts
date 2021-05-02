@@ -28,7 +28,7 @@ export function createStrategy
   strategy.vault = vault_addr.toHex()
   strategy.save()
 
-  StrategyListener.create(vault_addr)
+  StrategyListener.create(strategy_addr)
 
   return strategy
 }

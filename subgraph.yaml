@@ -30,7 +30,9 @@ dataSources:
       callHandlers:
         - function: addVaultAndStrategy(address,address)
           handler: handleAddVaultAndStrategy
+
       file: ./src/ControllerListener.ts
+
 
 templates:
   - kind: ethereum/contract
@@ -60,6 +62,9 @@ templates:
           handler: handleStrategyChanged
         - event: Withdraw(indexed address,uint256)
           handler: handleWithdraw
+      callHandlers:
+        - function: doHardWork()
+          handler: handleDoHardWorkCall
       file: ./src/VaultListener.ts
 
   - kind: ethereum/contract
@@ -82,7 +87,4 @@ templates:
       eventHandlers:
         - event: ProfitAndBuybackLog(uint256,uint256,uint256)
           handler: handleProfitAndBuybackLog
-      callHandlers:
-        - function: doHardWork()
-          handler: handleDoHardWorkCall
       file: ./src/StrategyListener.ts

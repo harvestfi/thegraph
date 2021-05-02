@@ -7,6 +7,7 @@ import {
   Deposit   as DepositEvent,
   StrategyAnnounced as StrategyAnnouncedEvent,
   StrategyChanged as StrategyChangedEvent,
+  DoHardWorkCall,
 } from "../generated/templates/VaultListener/VaultContract"
 
 // schema imports
@@ -17,7 +18,8 @@ import {
   Deposit,
   Strategy,
   Transaction,
-  Block
+  Block,
+  DoHardWork
 } from "../generated/schema"
 
 // helper function import
@@ -111,4 +113,43 @@ export function handleStrategyChanged(event: StrategyChangedEvent): void {
   }
   vault.currStrategy = strategy.id
   vault.save()
+}
+
+
+export function handleDoHardWorkCall(call: DoHardWorkCall): void {
+
+  let vault_addr = call.to
+  let vault_contract = VaultContract.bind(vault_addr)
+  let vault = Vault.load(vault_addr.toHex())
+  if (vault == null ){
+    // we are listening to the vault so it has to exist
+    log.error('Vault didnt exist in DoHardWorkCall should be impossible {}', [
+          call.transaction.hash.toHex(),
+        ])
+  }
+
+  let strategy_addr = vault_contract.strategy()
+  let strategy = Strategy.load(strategy_addr.toHex())
+  if (strategy == null ){
+    // you'd expect the strategy to already exist due to the handleStrategyAnnounced
+    // however probably due to legacy stuff this isn't guaranteed so we need
+    // to create it here in some cases :/ similar to strategy changed
+    strategy = createStrategy(strategy_addr, vault_addr, call.block, call.transaction)
+  }
+
+  let block = loadOrCreateBlock(call.block)
+  let transaction = loadOrCreateTransaction(call.transaction)
+
+  let doHardWork = new DoHardWork(transaction.id)
+  doHardWork.timestamp = block.timestamp
+  doHardWork.block = block.id
+  doHardWork.transaction = transaction.id
+  doHardWork.vault = vault.id
+  doHardWork.strategy = strategy.id
+  doHardWork.pricePerFullShare = vault_contract.getPricePerFullShare()
+  doHardWork.balanceInVault = vault_contract.underlyingBalanceInVault()
+  doHardWork.balanceWithInvestment = vault_contract.underlyingBalanceWithInvestment()
+
+  doHardWork.save()
+
 }
