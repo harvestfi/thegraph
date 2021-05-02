@@ -49,6 +49,15 @@ type DoHardWork @entity {
   pricePerFullShare: BigInt!
   balanceInVault: BigInt!
   balanceWithInvestment: BigInt!
+  sharePriceChangeLog: SharePriceChangeLog @derivedFrom(field: "doHardWork")
+}
+
+type SharePriceChangeLog @entity {
+  "transaction hash"
+  id: ID!
+  doHardWork: DoHardWork!
+  oldSharePrice: BigInt!
+  newSharePrice: BigInt!
 }
 
 type User @entity{
@@ -102,9 +111,3 @@ type Transaction @entity {
   gasUsed: BigInt!
   gasPrice: BigInt!
 }
-
-# interface ETH {
-#   timestamp: BigInt!
-#   block: Block!
-#   transaction: Transaction!
-# }
