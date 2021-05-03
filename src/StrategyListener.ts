@@ -20,7 +20,6 @@ import {
 
 // helper function import
 import { loadOrCreateTransaction } from "./utils/Transaction"
-import { loadOrCreateBlock } from "./utils/Block"
 
 export function handleProfitAndBuybackLog(event: ProfitAndBuybackLogEvent): void{
   let strategy_addr = event.address

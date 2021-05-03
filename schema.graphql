@@ -3,8 +3,6 @@ type Vault @entity {
   id: ID!
   "timestamp vault was registered at the controller"
   timestamp: BigInt!
-  "block vault was registered at the controller"
-  block: Block!
   "transaction vault was registered at the controller"
   transaction: Transaction!
   "current strategy"
@@ -26,8 +24,6 @@ type Strategy @entity {
   id: ID!
   "timestamp strategy was registered on the vault"
   timestamp: BigInt!
-  "block strategy was registered on the vault"
-  block: Block!
   "transaction strategy was registered on the vault"
   transaction: Transaction!
   "vault it belongs to"
@@ -40,7 +36,6 @@ type DoHardWork @entity {
   "transaction hash"
   id: ID!
   timestamp: BigInt!
-  block: Block!
   transaction: Transaction!
   "vault hard work was done on"
   vault: Vault!
@@ -70,7 +65,6 @@ type User @entity{
 type Withdrawal @entity {
   id: ID!
   timestamp: BigInt!
-  block: Block!
   transaction: Transaction!
   vault: Vault!
   user: User!
@@ -80,7 +74,6 @@ type Withdrawal @entity {
 type Deposit @entity {
   id: ID!
   timestamp: BigInt!
-  block: Block!
   transaction: Transaction!
   vault: Vault!
   user: User!
@@ -95,16 +88,12 @@ type Token @entity {
   decimals: Int!
 }
 
-type Block @entity {
-  "block hash"
-  id: ID!
-  number: BigInt!
-  timestamp: BigInt!
-}
-
 type Transaction @entity {
   "transaction hash"
   id: ID!
+  timestamp: BigInt!
+  blockNumber: BigInt!
+  blockHash: Bytes!
   from: Bytes!
   to: Bytes
   value: BigInt!

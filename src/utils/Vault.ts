@@ -13,7 +13,6 @@ import { Vault, Strategy } from "../../generated/schema"
 import { createStrategy } from "./Strategy"
 import { loadOrCreateERC20DetailedToken } from "./Token"
 import { loadOrCreateTransaction } from "./Transaction"
-import { loadOrCreateBlock } from "./Block"
 
 export function createVaultAndStrategy
 (
@@ -29,12 +28,10 @@ export function createVaultAndStrategy
   let underlying_token = loadOrCreateERC20DetailedToken(underlying_addr)
   let f_token = loadOrCreateERC20DetailedToken(vault_addr)
 
-  let block = loadOrCreateBlock(eth_block)
-  let transaction = loadOrCreateTransaction(eth_transaction)
+  let transaction = loadOrCreateTransaction(eth_transaction, eth_block)
 
   let vault = new Vault(vault_addr.toHex())
-  vault.timestamp = block.timestamp
-  vault.block = block.id
+  vault.timestamp = transaction.timestamp
   vault.transaction = transaction.id
   vault.underlying = underlying_token.id
   vault.fToken = f_token.id

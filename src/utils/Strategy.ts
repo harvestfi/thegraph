@@ -8,7 +8,6 @@ import { Strategy } from "../../generated/schema"
 
 // helper function import
 import { loadOrCreateTransaction } from "./Transaction"
-import { loadOrCreateBlock } from "./Block"
 
 export function createStrategy
 (
@@ -18,12 +17,10 @@ export function createStrategy
   eth_transaction: ethereum.Transaction
 ): Strategy
 {
-  let block = loadOrCreateBlock(eth_block)
-  let transaction = loadOrCreateTransaction(eth_transaction)
+  let transaction = loadOrCreateTransaction(eth_transaction, eth_block)
 
   let strategy = new Strategy(strategy_addr.toHex())
-  strategy.timestamp = block.timestamp
-  strategy.block = block.id
+  strategy.timestamp = transaction.timestamp
   strategy.transaction = transaction.id
   strategy.vault = vault_addr.toHex()
   strategy.save()

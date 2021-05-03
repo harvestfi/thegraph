@@ -18,14 +18,12 @@ import {
   Deposit,
   Strategy,
   Transaction,
-  Block,
   DoHardWork
 } from "../generated/schema"
 
 // helper function import
 import { createStrategy } from "./utils/Strategy"
 import { loadOrCreateTransaction } from "./utils/Transaction"
-import { loadOrCreateBlock } from "./utils/Block"
 
 
 export function handleWithdraw(event: WithdrawEvent): void {
@@ -40,12 +38,10 @@ export function handleWithdraw(event: WithdrawEvent): void {
     user.save()
   }
 
-  let transaction = loadOrCreateTransaction(event.transaction)
-  let block = loadOrCreateBlock(event.block)
+  let transaction = loadOrCreateTransaction(event.transaction, event.block)
 
   let withdrawal = new Withdrawal(event.transaction.hash.toHex())
-  withdrawal.timestamp = block.timestamp
-  withdrawal.block  = block.id
+  withdrawal.timestamp = transaction.timestamp
   withdrawal.transaction = transaction.id
   withdrawal.vault  = vault.id
   withdrawal.user   = user.id
@@ -63,12 +59,10 @@ export function handleDeposit(event: DepositEvent): void {
     user.save()
   }
 
-  let transaction = loadOrCreateTransaction(event.transaction)
-  let block = loadOrCreateBlock(event.block)
+  let transaction = loadOrCreateTransaction(event.transaction, event.block)
 
   let deposit = new Deposit(event.transaction.hash.toHex())
-  deposit.timestamp = block.timestamp
-  deposit.block  = block.id
+  deposit.timestamp = transaction.timestamp
   deposit.transaction = transaction.id
   deposit.vault  = vault.id
   deposit.user   = user.id
@@ -137,12 +131,10 @@ export function handleDoHardWorkCall(call: DoHardWorkCall): void {
     strategy = createStrategy(strategy_addr, vault_addr, call.block, call.transaction)
   }
 
-  let block = loadOrCreateBlock(call.block)
-  let transaction = loadOrCreateTransaction(call.transaction)
+  let transaction = loadOrCreateTransaction(call.transaction, call.block)
 
   let doHardWork = new DoHardWork(transaction.id)
-  doHardWork.timestamp = block.timestamp
-  doHardWork.block = block.id
+  doHardWork.timestamp = transaction.timestamp
   doHardWork.transaction = transaction.id
   doHardWork.vault = vault.id
   doHardWork.strategy = strategy.id
