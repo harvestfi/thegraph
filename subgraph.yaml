@@ -30,9 +30,7 @@ dataSources:
       callHandlers:
         - function: addVaultAndStrategy(address,address)
           handler: handleAddVaultAndStrategy
-
       file: ./src/ControllerListener.ts
-
 
 templates:
   - kind: ethereum/contract
@@ -87,4 +85,6 @@ templates:
       eventHandlers:
         - event: ProfitAndBuybackLog(uint256,uint256,uint256)
           handler: handleProfitAndBuybackLog
+        - event: ProfitLogInReward(uint256,uint256,uint256)
+          handler: handleProfitLogInReward
       file: ./src/StrategyListener.ts

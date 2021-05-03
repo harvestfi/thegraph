@@ -1,4 +1,4 @@
-import { Address, ethereum } from '@graphprotocol/graph-ts'
+import { BigInt, Address, ethereum } from '@graphprotocol/graph-ts'
 
 // subgraph templates
 import { StrategyListener } from '../../generated/templates'
@@ -23,6 +23,8 @@ export function createStrategy
   strategy.timestamp = transaction.timestamp
   strategy.transaction = transaction.id
   strategy.vault = vault_addr.toHex()
+  strategy.aggregatedProfit = BigInt.fromI32(0)
+  strategy.aggregatedFee = BigInt.fromI32(0)
   strategy.save()
 
   StrategyListener.create(strategy_addr)
