@@ -36,6 +36,11 @@ type Strategy @entity {
   aggregatedFee: BigInt!
 }
 
+type Pool @entity {
+  "pool address"
+  id: ID!
+}
+
 type DoHardWork @entity {
   "transaction hash"
   id: ID!
