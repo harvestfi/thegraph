@@ -129,6 +129,8 @@ export function handleDoHardWorkCall(call: DoHardWorkCall): void {
     // however probably due to legacy stuff this isn't guaranteed so we need
     // to create it here in some cases :/ similar to strategy changed
     strategy = createStrategy(strategy_addr, vault_addr, call.block, call.transaction)
+    vault.currStrategy = strategy.id
+    vault.save()
   }
 
   let transaction = loadOrCreateTransaction(call.transaction, call.block)
