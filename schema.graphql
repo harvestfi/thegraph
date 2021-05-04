@@ -14,6 +14,7 @@ type Vault @entity {
   "returned share token"
   fToken: Token!
   "hard work done on vault"
+  pool: Pool @derivedFrom(field: "vault")
   doHardWorks: [DoHardWork!]! @derivedFrom(field: "vault")
   withdrawals: [Withdrawal!]! @derivedFrom(field: "vault")
   deposits: [Deposit!]! @derivedFrom(field: "vault")
@@ -39,6 +40,13 @@ type Strategy @entity {
 type Pool @entity {
   "pool address"
   id: ID!
+  "timestamp pool was first rewarded via notifyhelper"
+  timestamp: BigInt!
+  "transaction pool was first rewarded via notifyhelper"
+  transaction: Transaction!
+  vault: Vault
+  lpToken: Token!
+  rewardToken: Token!
 }
 
 type DoHardWork @entity {

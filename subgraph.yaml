@@ -37,7 +37,7 @@ dataSources:
     network: mainnet
     source:
       address: "0xE20c31e3d08027F5AfACe84A3A46B7b3B165053c"
-      startBlock: 11276997 
+      startBlock: 11276997
       abi: NotifyHelperContract
     mapping:
       kind: ethereum/events
@@ -48,6 +48,10 @@ dataSources:
       abis:
         - name: NotifyHelperContract
           file: ./abis/contracts_manual/NotifyHelper.json
+        - name: PoolContract
+          file: ./abis/contracts/base/NoMintRewardPool.sol/NoMintRewardPool.json
+        - name: ERC20DetailedContract
+          file: ./abis/@openzeppelin/contracts/token/ERC20/ERC20Detailed.sol/ERC20Detailed.json
       # eventHandlers:
         # - event: SharePriceChangeLog(indexed address,indexed address,uint256,uint256,uint256)
         #   handler: handleSharePriceChangeLog
