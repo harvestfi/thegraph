@@ -114,3 +114,23 @@ templates:
         - event: ProfitLogInReward(uint256,uint256,uint256)
           handler: handleProfitLogInReward
       file: ./src/StrategyListener.ts
+
+  - kind: ethereum/contract
+    name: NoMintPoolListener
+    network: mainnet
+    source:
+      abi: NoMintPoolContract
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.4
+      language: wasm/assemblyscript
+      entities:
+        - Pool
+        - RewardAdded
+      abis:
+        - name: NoMintPoolContract
+          file: ./abis/contracts/base/NoMintRewardPool.sol/NoMintRewardPool.json
+      eventHandlers:
+        - event: RewardAdded(uint256)
+          handler: handleRewardAdded
+      file: ./src/NoMintPoolListener.ts

@@ -51,6 +51,7 @@ type Pool @entity {
   vault: Vault
   lpToken: Token!
   rewardToken: Token!
+  rewardsAdded: [RewardAdded!]! @derivedFrom(field: "pool")
 }
 
 type DoHardWork @entity {
@@ -100,6 +101,17 @@ type ProfitLog @entity {
 enum ProfitLogType {
   ProfitLogInReward
   ProfitAndBuybackLog
+}
+
+type RewardAdded @entity {
+  # transaction hash alone is not unique, we need to add pool address
+  "transaction hash - pool address"
+  id: ID!
+  timestamp: BigInt!
+  transaction: Transaction!
+  pool: Pool!
+  reward: BigInt!
+  rewardRate: BigInt!
 }
 
 type User @entity{
