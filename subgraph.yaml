@@ -2,35 +2,35 @@ specVersion: 0.0.2
 schema:
   file: ./schema.graphql
 dataSources:
-  # - kind: ethereum/contract
-  #   name: ControllerListener
-  #   network: mainnet
-  #   source:
-  #     address: "0x222412af183BCeAdEFd72e4Cb1b71f1889953b1C"
-  #     startBlock: 10770087
-  #     abi: ControllerContract
-  #   mapping:
-  #     kind: ethereum/events
-  #     apiVersion: 0.0.4
-  #     language: wasm/assemblyscript
-  #     entities:
-  #       - Vault
-  #       - Strategy
-  #       - Token
-  #     abis:
-  #       - name: ControllerContract
-  #         file: ./abis/contracts_manual/Controller.json
-  #       - name: ERC20DetailedContract
-  #         file: ./abis/@openzeppelin/contracts/token/ERC20/ERC20Detailed.sol/ERC20Detailed.json
-  #       - name: VaultContract
-  #         file: ./abis/contracts/base/Vault.sol/Vault.json
-  #     eventHandlers:
-  #       - event: SharePriceChangeLog(indexed address,indexed address,uint256,uint256,uint256)
-  #         handler: handleSharePriceChangeLog
-  #     callHandlers:
-  #       - function: addVaultAndStrategy(address,address)
-  #         handler: handleAddVaultAndStrategy
-  #     file: ./src/ControllerListener.ts
+  - kind: ethereum/contract
+    name: ControllerListener
+    network: mainnet
+    source:
+      address: "0x222412af183BCeAdEFd72e4Cb1b71f1889953b1C"
+      startBlock: 10770087
+      abi: ControllerContract
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.4
+      language: wasm/assemblyscript
+      entities:
+        - Vault
+        - Strategy
+        - Token
+      abis:
+        - name: ControllerContract
+          file: ./abis/contracts_manual/Controller.json
+        - name: ERC20DetailedContract
+          file: ./abis/@openzeppelin/contracts/token/ERC20/ERC20Detailed.sol/ERC20Detailed.json
+        - name: VaultContract
+          file: ./abis/contracts/base/Vault.sol/Vault.json
+      eventHandlers:
+        - event: SharePriceChangeLog(indexed address,indexed address,uint256,uint256,uint256)
+          handler: handleSharePriceChangeLog
+      callHandlers:
+        - function: addVaultAndStrategy(address,address)
+          handler: handleAddVaultAndStrategy
+      file: ./src/ControllerListener.ts
 
   - kind: ethereum/contract
     name: NotifyHelperListener
@@ -45,6 +45,7 @@ dataSources:
       language: wasm/assemblyscript
       entities:
         - Pool
+        - Vault
       abis:
         - name: NotifyHelperContract
           file: ./abis/contracts_manual/NotifyHelper.json
@@ -52,9 +53,6 @@ dataSources:
           file: ./abis/contracts/base/NoMintRewardPool.sol/NoMintRewardPool.json
         - name: ERC20DetailedContract
           file: ./abis/@openzeppelin/contracts/token/ERC20/ERC20Detailed.sol/ERC20Detailed.json
-      # eventHandlers:
-        # - event: SharePriceChangeLog(indexed address,indexed address,uint256,uint256,uint256)
-        #   handler: handleSharePriceChangeLog
       callHandlers:
         - function: notifyPools(uint256[],address[],uint256)
           handler: handleNotifyPools

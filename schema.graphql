@@ -13,8 +13,11 @@ type Vault @entity {
   underlying: Token!
   "returned share token"
   fToken: Token!
+  "most recent pool as detected by NotifyHelper is usually not null"
+  currPool: Pool
+  "all pools that were at some point attached to vault"
+  pools: [Pool!]! @derivedFrom(field: "vault")
   "hard work done on vault"
-  pool: Pool @derivedFrom(field: "vault")
   doHardWorks: [DoHardWork!]! @derivedFrom(field: "vault")
   withdrawals: [Withdrawal!]! @derivedFrom(field: "vault")
   deposits: [Deposit!]! @derivedFrom(field: "vault")
@@ -44,6 +47,7 @@ type Pool @entity {
   timestamp: BigInt!
   "transaction pool was first rewarded via notifyhelper"
   transaction: Transaction!
+  "vault can be null in very special cases but generally exists"
   vault: Vault
   lpToken: Token!
   rewardToken: Token!

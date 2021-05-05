@@ -11,7 +11,8 @@ import {
 
 // schema imports
 import {
-  Pool
+  Pool,
+  Vault
 } from "../generated/schema"
 
 // helper function import
@@ -36,6 +37,7 @@ export function handleNotifyPools(call: NotifyPoolsCall): void {
 
       let vault_addr = pool_contract.sourceVault()
 
+
       pool = new Pool(pool_addr.toHex())
       pool.timestamp = transaction.timestamp
       pool.transaction = transaction.id
@@ -46,6 +48,15 @@ export function handleNotifyPools(call: NotifyPoolsCall): void {
       pool.lpToken = lp_token.id
       pool.rewardToken = reward_token.id
       pool.save()
+
+      let vault = Vault.load(vault_addr.toHex())
+      if ( vault != null){
+        // if the vault already exists we set the currPool to the found pool
+        // we aren't guaranteed that the pool is rewarded before the vault
+        // is registered at the controller (although probably never happens)
+        vault.currPool = pool.id
+        vault.save()
+      }
     }
   }
 }
