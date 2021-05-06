@@ -1,8 +1,5 @@
 //import { log } from '@graphprotocol/graph-ts'
 
-// subgraph templates
-//import { VaultListener } from '../generated/templates'
-
 // contract imports
 import {
   NoMintPoolContract,
@@ -34,5 +31,6 @@ export function handleRewardAdded(event: RewardAddedEvent): void {
   reward_added.pool = pool.id
   reward_added.reward = event.params.reward
   reward_added.rewardRate = pool_contract.rewardRate()
+  reward_added.periodFinish = pool_contract.periodFinish()
   reward_added.save()
 }

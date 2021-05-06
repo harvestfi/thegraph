@@ -1,5 +1,8 @@
 import { BigInt, Address, ethereum } from '@graphprotocol/graph-ts'
 
+// subgraph templates
+import { NoMintPoolListener } from '../../generated/templates'
+
 // contract imports
 import {
   PoolContract
@@ -55,6 +58,8 @@ export function loadOrCreateNoMintPool
       vault.currPool = pool.id
       vault.save()
     }
+
+    NoMintPoolListener.create(pool_addr)
   }
   return pool as Pool
 }

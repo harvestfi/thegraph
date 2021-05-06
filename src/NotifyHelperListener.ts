@@ -39,9 +39,6 @@ export function handleNotifyPoolsIncludingProfitShare
   let pools = call.inputs.pools
   for(let i = 0;i<pools.length;i++) {
     let pool_addr = pools[i]
-    log.warning('Pool address {}', [
-        pool_addr.toHex(),
-      ])
     loadOrCreateNoMintPool(pool_addr, call.block, call.transaction)
   }
 }
