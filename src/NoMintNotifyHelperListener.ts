@@ -4,24 +4,17 @@ import { log  } from '@graphprotocol/graph-ts'
 import {
   NotifyPoolsCall,
   NotifyPoolsIncludingProfitShareCall
-} from "../generated/NotifyHelperListener/NotifyHelperContract"
-import {
-  PoolContract
-} from "../generated/NotifyHelperListener/PoolContract"
+} from "../generated/NoMintNotifyHelperListener/NoMintNotifyHelperContract"
 
-
-// schema imports
-import {
-  Pool,
-  Vault
-} from "../generated/schema"
 
 // helper function import
-import { loadOrCreateNoMintPool } from "./utils/Pool"
+import { loadOrCreateNoMintPool } from "./utils/NoMintPool"
 
 
 // Functions only trigger a thegraph when they are called directly, not when called
 // within the same contract unless it is marked as external (which this one is not)
+// that is why we have to listen to IncludingProfitShare eventhough that function is
+// calling this one internally
 export function handleNotifyPools(call: NotifyPoolsCall): void {
   let pools = call.inputs.pools
   for(let i = 0;i<pools.length;i++) {

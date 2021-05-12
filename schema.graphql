@@ -15,8 +15,8 @@ type Vault @entity {
   fToken: Token!
   "most recent pool as detected by NotifyHelper is usually not null"
   currPool: Pool
-  "all pools that were at some point attached to vault"
-  pools: [Pool!]! @derivedFrom(field: "vault")
+  # "all pools that were at some point attached to vault"
+  # pools: [Pool!]! @derivedFrom(field: "vault")
   "hard work done on vault"
   doHardWorks: [DoHardWork!]! @derivedFrom(field: "vault")
   withdrawals: [Withdrawal!]! @derivedFrom(field: "vault")
@@ -40,6 +40,11 @@ type Strategy @entity {
   aggregatedFee: BigInt!
 }
 
+enum PoolType {
+  NoMintRewardPool
+  PotPool
+}
+
 type Pool @entity {
   "pool address"
   id: ID!
@@ -49,9 +54,28 @@ type Pool @entity {
   transaction: Transaction!
   "vault can be null in very special cases but generally exists"
   vault: Vault
+  "pool type"
+  type: PoolType!
   # lpToken: Token!
-  rewardToken: Token!
-  rewardsAdded: [RewardAdded!]! @derivedFrom(field: "pool")
+  rewardTokens: [Token!]!
+  rewards: [Reward!]! @derivedFrom(field: "pool")
+}
+
+type Reward @entity {
+  # transaction hash alone is not unique, we need to add pool address
+  "transactionhash-pooladdress-rewardtoken"
+  id: ID!
+  timestamp: BigInt!
+  transaction: Transaction!
+  pool: Pool!
+  "token that is rewarded"
+  token: Token!
+  "amount of reward added"
+  reward: BigInt!
+  "reward rate after reward was added - valid untill next reward or periodFinish"
+  rewardRate: BigInt!
+  "timestamp when the pool runs out of rewards if no new rewards are added"
+  periodFinish: BigInt!
 }
 
 type DoHardWork @entity {
@@ -103,20 +127,6 @@ enum ProfitLogType {
   ProfitAndBuybackLog
 }
 
-type RewardAdded @entity {
-  # transaction hash alone is not unique, we need to add pool address
-  "transaction hash - pool address"
-  id: ID!
-  timestamp: BigInt!
-  transaction: Transaction!
-  pool: Pool!
-  "amount of reward added"
-  reward: BigInt!
-  "reward rate after reward was added"
-  rewardRate: BigInt!
-  "when the pool runs out of rewards if no new rewards are added"
-  periodFinish: BigInt!
-}
 
 type User @entity{
   "address of user account"

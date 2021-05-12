@@ -1,12 +1,12 @@
 import { BigInt, Address, ethereum } from '@graphprotocol/graph-ts'
 
 // subgraph templates
-import { NoMintPoolListener } from '../../generated/templates'
+import { PotPoolListener } from '../../generated/templates'
 
 // contract imports
 import {
-  PoolContract
-} from "../../generated/NotifyHelperListener/PoolContract"
+  PotPoolContract
+} from "../../generated/PotNotifyHelperListener/PotPoolContract"
 
 // schema imports
 import {
@@ -18,7 +18,7 @@ import {
 import { loadOrCreateERC20DetailedToken } from "./Token"
 import { loadOrCreateTransaction } from "./Transaction"
 
-export function loadOrCreateNoMintPool
+export function loadOrCreatePotPool
 (
   pool_addr: Address,
   eth_block: ethereum.Block,
@@ -29,12 +29,12 @@ export function loadOrCreateNoMintPool
   if (pool == null){
     let transaction = loadOrCreateTransaction(eth_transaction, eth_block)
 
-    let pool_contract = PoolContract.bind(pool_addr)
+    let pool_contract = PotPoolContract.bind(pool_addr)
     let vault_addr = pool_contract.lpToken()
     //let lp_token = loadOrCreateERC20DetailedToken(lp_token_addr)
 
-    let reward_token_addr = pool_contract.rewardToken()
-    let reward_token = loadOrCreateERC20DetailedToken(reward_token_addr)
+    // let reward_token_addr = pool_contract.rewardToken()
+    // let reward_token = loadOrCreateERC20DetailedToken(reward_token_addr)
 
     // let vault_addr = pool_contract.sourceVault()
 
@@ -47,7 +47,28 @@ export function loadOrCreateNoMintPool
     // is registered at the controller (not the most elegant solution)
     pool.vault = vault_addr.toHex()
     // pool.lpToken = lp_token.id
-    pool.rewardToken = reward_token.id
+    pool.type = "PotPool"
+
+    // we use legacy call to populate first token of reward tokens
+    let reward_token_addr = pool_contract.rewardToken()
+    let reward_token = loadOrCreateERC20DetailedToken(reward_token_addr)
+    let reward_tokens = new Array<string>(1)
+    reward_tokens[0] = reward_token.id
+
+    // some early potpools do not support this call so we check if it exists
+    let n_tokens = pool_contract.try_rewardTokensLength()
+
+    if (n_tokens.reverted == false){
+      // we start counting at 1 because we already have the first
+      for(let i = BigInt.fromI32(1); i < n_tokens.value; i + BigInt.fromI32(1)) {
+        let reward_token_addr = pool_contract.rewardTokens(i)
+        let reward_token = loadOrCreateERC20DetailedToken(reward_token_addr)
+        reward_tokens.push(reward_token.id)
+      }
+    }
+
+
+    pool.rewardTokens = reward_tokens
     pool.save()
 
     let vault = Vault.load(vault_addr.toHex())
@@ -59,7 +80,7 @@ export function loadOrCreateNoMintPool
       vault.save()
     }
 
-    NoMintPoolListener.create(pool_addr)
+    PotPoolListener.create(pool_addr)
   }
   return pool as Pool
 }
