@@ -1,4 +1,4 @@
-import { BigInt, Address, ethereum } from '@graphprotocol/graph-ts'
+import { log, BigInt, Address, ethereum } from '@graphprotocol/graph-ts'
 
 // subgraph templates
 import { PotPoolListener } from '../../generated/templates'
@@ -49,23 +49,14 @@ export function loadOrCreatePotPool
     // pool.lpToken = lp_token.id
     pool.type = "PotPool"
 
-    // we use legacy call to populate first token of reward tokens
+    // we use legacy call to populate first token of reward tokens because
+    // it is guaranteed to exist whereas rewardTokenLength doesn't
+    // so if a potpool supports multiple reward tokens we have to find them
+    // in the reward added event
     let reward_token_addr = pool_contract.rewardToken()
     let reward_token = loadOrCreateERC20DetailedToken(reward_token_addr)
     let reward_tokens = new Array<string>(1)
     reward_tokens[0] = reward_token.id
-
-    // some early potpools do not support this call so we check if it exists
-    let n_tokens = pool_contract.try_rewardTokensLength()
-
-    if (n_tokens.reverted == false){
-      // we start counting at 1 because we already have the first
-      for(let i = BigInt.fromI32(1); i < n_tokens.value; i + BigInt.fromI32(1)) {
-        let reward_token_addr = pool_contract.rewardTokens(i)
-        let reward_token = loadOrCreateERC20DetailedToken(reward_token_addr)
-        reward_tokens.push(reward_token.id)
-      }
-    }
 
 
     pool.rewardTokens = reward_tokens
@@ -80,7 +71,7 @@ export function loadOrCreatePotPool
       vault.save()
     }
 
-    PotPoolListener.create(pool_addr)
+    // PotPoolListener.create(pool_addr)
   }
   return pool as Pool
 }

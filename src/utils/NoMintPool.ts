@@ -54,13 +54,13 @@ export function loadOrCreateNoMintPool
     let vault = Vault.load(vault_addr.toHex())
     if ( vault != null){
       // if the vault already exists we set the currPool to the found pool
-      // we aren't guaranteed that the pool is rewarded before the vault
+      // we aren't guaranteed that the pool is rewarded after the vault
       // is registered at the controller (although probably never happens)
       vault.currPool = pool.id
       vault.save()
     }
 
-    NoMintPoolListener.create(pool_addr)
+    // NoMintPoolListener.create(pool_addr)
   }
   return pool as Pool
 }

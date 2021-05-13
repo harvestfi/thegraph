@@ -9,7 +9,7 @@ import {
 // schema imports
 import {
   Pool,
-  RewardAdded
+  Reward
 } from "../generated/schema"
 
 // helper function imports

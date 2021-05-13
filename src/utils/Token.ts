@@ -1,6 +1,6 @@
 import { Address } from '@graphprotocol/graph-ts'
 // contract imports
-import { ERC20DetailedContract } from "../../generated/NoMintNotifyHelperListener/ERC20DetailedContract"
+import { ERC20DetailedContract } from "../../generated/PotNotifyHelperListener/ERC20DetailedContract"
 // schema imports
 import { Token } from "../../generated/schema"
 
