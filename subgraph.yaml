@@ -32,13 +32,67 @@ dataSources:
           handler: handleAddVaultAndStrategy
       file: ./src/ControllerListener.ts
 
+  # - kind: ethereum/contract
+  #   name: NoMintNotifyHelperListener
+  #   network: mainnet
+  #   source:
+  #     address: "0xE20c31e3d08027F5AfACe84A3A46B7b3B165053c"
+  #     startBlock: 11276997
+  #     abi: NoMintNotifyHelperContract
+  #   mapping:
+  #     kind: ethereum/events
+  #     apiVersion: 0.0.4
+  #     language: wasm/assemblyscript
+  #     entities:
+  #       - Pool
+  #       - Vault
+  #     abis:
+  #       - name: NoMintNotifyHelperContract
+  #         file: ./abis/contracts_manual/NotifyHelper.json
+  #       - name: NoMintPoolContract
+  #         file: ./abis/contracts/base/NoMintRewardPool.sol/NoMintRewardPool.json
+  #       - name: ERC20DetailedContract
+  #         file: ./abis/@openzeppelin/contracts/token/ERC20/ERC20Detailed.sol/ERC20Detailed.json
+  #     callHandlers:
+  #       - function: notifyPools(uint256[],address[],uint256)
+  #         handler: handleNotifyPools
+  #       - function: notifyPoolsIncludingProfitShare(uint256[],address[],uint256,uint256,uint256)
+  #         handler: handleNotifyPoolsIncludingProfitShare
+  #     file: ./src/NoMintNotifyHelperListener.ts
+
+  # - kind: ethereum/contract
+  #   name: PotNotifyHelperListener
+  #   network: mainnet
+  #   source:
+  #     address: "0x657F0A6b628caB0d119398fE725C3C5792E4Dd0F"
+  #     startBlock: 12049016
+  #     abi: PotNotifyHelperContract
+  #   mapping:
+  #     kind: ethereum/events
+  #     apiVersion: 0.0.4
+  #     language: wasm/assemblyscript
+  #     entities:
+  #       - PotPool
+  #       - Vault
+  #     abis:
+  #       - name: PotNotifyHelperContract
+  #         file: ./abis/contracts_manual/NotifyHelper.json
+  #       - name: PotPoolContract
+  #         file: ./abis/contracts/base/PotPool.sol/PotPool.json
+  #       - name: ERC20DetailedContract
+  #         file: ./abis/@openzeppelin/contracts/token/ERC20/ERC20Detailed.sol/ERC20Detailed.json
+  #     callHandlers:
+  #       - function: notifyPools(uint256[],address[],uint256)
+  #         handler: handlePotNotifyPools
+  #     file: ./src/PotNotifyHelperListener.ts
+
   - kind: ethereum/contract
-    name: NoMintNotifyHelperListener
+    name: FARMERC20
     network: mainnet
     source:
-      address: "0xE20c31e3d08027F5AfACe84A3A46B7b3B165053c"
-      startBlock: 11276997
-      abi: NoMintNotifyHelperContract
+      address: "0xa0246c9032bc3a600820415ae600c6388619a14d"
+      startBlock: 10770079
+      abi: ERC20DetailedContract
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.4
@@ -47,44 +101,12 @@ dataSources:
         - Pool
         - Vault
       abis:
-        - name: NoMintNotifyHelperContract
-          file: ./abis/contracts_manual/NotifyHelper.json
-        - name: NoMintPoolContract
-          file: ./abis/contracts/base/NoMintRewardPool.sol/NoMintRewardPool.json
         - name: ERC20DetailedContract
           file: ./abis/@openzeppelin/contracts/token/ERC20/ERC20Detailed.sol/ERC20Detailed.json
       callHandlers:
-        - function: notifyPools(uint256[],address[],uint256)
-          handler: handleNotifyPools
-        - function: notifyPoolsIncludingProfitShare(uint256[],address[],uint256,uint256,uint256)
-          handler: handleNotifyPoolsIncludingProfitShare
-      file: ./src/NoMintNotifyHelperListener.ts
-
-  - kind: ethereum/contract
-    name: PotNotifyHelperListener
-    network: mainnet
-    source:
-      address: "0x657F0A6b628caB0d119398fE725C3C5792E4Dd0F"
-      startBlock: 12049016
-      abi: PotNotifyHelperContract
-    mapping:
-      kind: ethereum/events
-      apiVersion: 0.0.4
-      language: wasm/assemblyscript
-      entities:
-        - PotPool
-        - Vault
-      abis:
-        - name: PotNotifyHelperContract
-          file: ./abis/contracts_manual/NotifyHelper.json
-        - name: PotPoolContract
-          file: ./abis/contracts/base/PotPool.sol/PotPool.json
-        - name: ERC20DetailedContract
-          file: ./abis/@openzeppelin/contracts/token/ERC20/ERC20Detailed.sol/ERC20Detailed.json
-      callHandlers:
-        - function: notifyPools(uint256[],address[],uint256)
-          handler: handlePotNotifyPools
-      file: ./src/PotNotifyHelperListener.ts
+        - function: transfer(address,uint256)
+          handler: handleTransfer
+      file: ./src/FARMERC20.ts
 
 templates:
   - kind: ethereum/contract
