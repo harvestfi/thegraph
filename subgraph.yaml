@@ -103,8 +103,8 @@ dataSources:
       abis:
         - name: ERC20DetailedContract
           file: ./abis/@openzeppelin/contracts/token/ERC20/ERC20Detailed.sol/ERC20Detailed.json
-      callHandlers:
-        - function: transfer(address,uint256)
+      eventHandlers:
+        - event: Transfer(indexed address,indexed address,uint256)
           handler: handleTransfer
       file: ./src/FARMERC20.ts
 
