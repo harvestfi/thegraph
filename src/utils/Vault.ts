@@ -23,9 +23,12 @@ export function createVaultAndStrategy
 ): Vault
 {
   let vault_contract = VaultContract.bind(vault_addr)
-  let underlying_addr = vault_contract.underlying()
+  let underlying_addr = vault_contract.try_underlying()
 
-  let underlying_token = loadOrCreateERC20DetailedToken(underlying_addr)
+  // No support via UniV3 yet
+  if (!underlying_addr) return null;
+
+  let underlying_token = loadOrCreateERC20DetailedToken(<Address> underlying_addr)
   let f_token = loadOrCreateERC20DetailedToken(vault_addr)
 
   let transaction = loadOrCreateTransaction(eth_transaction, eth_block)
