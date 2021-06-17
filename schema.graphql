@@ -23,6 +23,11 @@ type Vault @entity {
   deposits: [Deposit!]! @derivedFrom(field: "vault")
 }
 
+type NewUniVault @entity {
+  "address of the vault"
+  id: ID!
+}
+
 type Strategy @entity {
   "strategy address"
   id: ID!
