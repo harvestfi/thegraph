@@ -23,13 +23,13 @@ export function createVaultAndStrategy
 ): void
 {
   let vault_contract = VaultContract.bind(vault_addr)
-  let underlying_addr = vault_contract.underlying()
+  let underlying_addr_call = vault_contract.try_underlying()
 
-  if (!underlying_addr) {
+  if (underlying_addr_call.reverted) {
     let newUniVault = new NewUniVault(vault_addr.toHex())
     newUniVault.save()
   } else {
-    let underlying_token = loadOrCreateERC20DetailedToken(<Address> underlying_addr)
+    let underlying_token = loadOrCreateERC20DetailedToken(<Address> underlying_addr_call.value)
     let f_token = loadOrCreateERC20DetailedToken(vault_addr)
 
     let transaction = loadOrCreateTransaction(eth_transaction, eth_block)
