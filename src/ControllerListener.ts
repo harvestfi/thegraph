@@ -46,7 +46,7 @@ export function handleAddVaultAndStrategy(call: AddVaultAndStrategyCall): void {
 
     let vault = Vault.load(vault_addr.toHex())
     if (vault == null) {
-      vault = createVaultAndStrategy(vault_addr, strategy_addr, call.block, call.transaction)
+      createVaultAndStrategy(vault_addr, strategy_addr, call.block, call.transaction)
 
     }
   } else {
