@@ -1,0 +1,100 @@
+❯ node test/hardworks.test.js
+testing vault 0x8e298734681adbfc41ee5d17ff8b0d6d803e7098
+DoHardWorks on ethparser: 0
+DoHardWorks on thegraph: 52
+
+testing vault 0xfe09e53a81fe2808bc493ea64319109b5baa573e
+DoHardWorks on ethparser: 76
+DoHardWorks on thegraph: 81
+
+testing vault 0x7674622c63bee7f46e86a4a5a18976693d54441b
+DoHardWorks on ethparser: 64
+DoHardWorks on thegraph: 68
+
+testing vault 0xe438c0fffba2a81094b6623e5191866d32814c22
+DoHardWorks on ethparser: 0
+DoHardWorks on thegraph: 0
+
+testing vault 0x7ddc3fff0612e75ea5ddc0d6bd4e268f70362cff
+DoHardWorks on ethparser: 48
+DoHardWorks on thegraph: 48
+
+testing vault 0xb19ebfb37a936cce783142955d39ca70aa29d43c
+DoHardWorks on ethparser: 0
+DoHardWorks on thegraph: 56
+
+testing vault 0x307e2752e8b8a9c29005001be66b1c012ca9cdb7
+DoHardWorks on ethparser: 46
+DoHardWorks on thegraph: 46
+
+testing vault 0x1a9f22b4c385f78650e7874d64e442839dc32327
+DoHardWorks on ethparser: 0
+DoHardWorks on thegraph: 50
+
+testing vault 0x01112a60f427205dca6e229425306923c3cc2073
+DoHardWorks on ethparser: 44
+DoHardWorks on thegraph: 44
+
+testing vault 0xb1feb6ab4ef7d0f41363da33868e85eb0f3a57ee
+DoHardWorks on ethparser: 0
+DoHardWorks on thegraph: 50
+
+testing vault 0xf553e1f826f42716cdfe02bde5ee76b2a52fc7eb
+DoHardWorks on ethparser: 42
+DoHardWorks on thegraph: 42
+
+testing vault 0x9aa8f427a17d6b0d91b6262989edc7d45d6aedf8
+DoHardWorks on ethparser: 228
+DoHardWorks on thegraph: 100
+
+testing vault 0x192e9d29d43db385063799bc239e772c3b6888f3
+DoHardWorks on ethparser: 0
+DoHardWorks on thegraph: 98
+
+testing vault 0xc391d1b08c1403313b0c28d47202dfda015633c4
+DoHardWorks on ethparser: 16
+DoHardWorks on thegraph: 19
+
+testing vault 0xfbe122d0ba3c75e1f7c80bd27613c9f35b81feec
+DoHardWorks on ethparser: 0
+DoHardWorks on thegraph: 96
+
+testing vault 0x71b9ec42bb3cb40f017d8ad8011be8e384a95fa5
+DoHardWorks on ethparser: 166
+DoHardWorks on thegraph: 100
+
+testing vault 0xb677bca369f2523f62862f88d83471d892dd55b9
+DoHardWorks on ethparser: 21
+DoHardWorks on thegraph: 25
+
+testing vault 0x5c0a3f55aac52aa320ff5f280e77517cbaf85524
+DoHardWorks on ethparser: 185
+DoHardWorks on thegraph: 100
+
+testing vault 0x29ec64560ab14d3166222bf07c3f29c4916e0027
+DoHardWorks on ethparser: 26
+DoHardWorks on thegraph: 30
+
+testing vault 0x84bae33581a5d35d636a36b983b22f3ca3bb06af
+DoHardWorks on ethparser: 0
+DoHardWorks on thegraph: 0
+
+testing vault 0x203e97aa6eb65a1a02d9e80083414058303f241e
+DoHardWorks on ethparser: 227
+DoHardWorks on thegraph: 100
+
+testing vault 0xa79a083fdd87f73c2f983c5551ec974685d6bb36
+DoHardWorks on ethparser: 47
+DoHardWorks on thegraph: 47
+
+testing vault 0x63671425ef4d25ec2b12c7d05de855c143f16e3b
+DoHardWorks on ethparser: 0
+DoHardWorks on thegraph: 52
+
+testing vault 0x640704d106e79e105fda424f05467f005418f1b5
+DoHardWorks on ethparser: 111
+DoHardWorks on thegraph: 100
+
+testing vault 0x4d4b6f8efb685b774234fd427201b3a9bf36ffc8
+DoHardWorks on ethparser: 25
+DoHardWorks on thegraph: 28
