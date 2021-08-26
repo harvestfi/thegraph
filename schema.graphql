@@ -178,3 +178,16 @@ type Transaction @entity {
   gasUsed: BigInt!
   gasPrice: BigInt!
 }
+
+enum ContractRegistryAddressType {
+  Unknown,
+  Pool,
+  Vault
+}
+
+type ContractRegistryAddress @entity {
+  id: ID!,
+  "contract registry address",
+  address: Bytes,
+  contractType: ContractRegistryAddressType
+}

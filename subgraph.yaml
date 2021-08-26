@@ -182,3 +182,32 @@ templates:
         - event: RewardAdded(address,uint256)
           handler: handleRewardAdded
       file: ./src/NoMintPoolListener.ts
+
+  - kind: ethereum/contract
+    name: ContractRegistryListener
+    network: mainnet
+    source:
+      abi: ContractRegistry
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.4
+      language: wasm/assemblyscript
+      entities:
+        - ContractRegistryAddress
+      abis:
+        - name: ContractRegistry
+          file: ./abis/contracts/bookkeeper/ContractRegistry.sol/ContractRegistry.json
+      eventHandlers:
+        - event: AddressesAdded(address[])
+          handler: handleAddressesAdded
+        - event: AddressesRemoved(address[])
+          handler: handleAddressesRemoved
+        - event: PoolsAdded(address[])
+          handler: handlePoolsAdded
+        - event: PoolsRemoved(address[])
+          handler: handlePoolsRemoved
+        - event: VaultsAdded(address[])
+          handler: handleVaultsAdded
+        - event: VaultsRemoved(address[])
+          handler: handleVaultsRemoved
+      file: ./src/ContractRegistryListener.ts
