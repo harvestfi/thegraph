@@ -180,14 +180,13 @@ type Transaction @entity {
 }
 
 enum ContractRegistryAddressType {
-  Unknown,
   Pool,
   Vault
 }
 
 type ContractRegistryAddress @entity {
-  id: ID!,
   "contract registry address",
-  address: Bytes,
+  id: ID!,
+  address: Bytes!,
   contractType: ContractRegistryAddressType
 }

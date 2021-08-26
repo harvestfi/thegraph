@@ -1,4 +1,4 @@
-import { log, BigInt, Address, ethereum } from '@graphprotocol/graph-ts'
+import { Address } from '@graphprotocol/graph-ts'
 
 // contract imports
 import {
@@ -14,18 +14,17 @@ import {
 
 // schema imports
 import {
-  ProfitLog,
   ContractRegistryAddress,
 } from "../generated/schema"
 
 import { store } from '@graphprotocol/graph-ts'
 
-function addAddresses(addresses: Address[], contractType: string): void {
+function addAddresses(addresses: Address[], contractType: string = ''): void {
   for (let i=0; i<addresses.length; i++) {
     let address = addresses[i]
     let contractRegistryAddress = new ContractRegistryAddress(address.toString())
     contractRegistryAddress.address = address;
-    contractRegistryAddress.contractType = contractType;
+    if (contractType) contractRegistryAddress.contractType = contractType;
     contractRegistryAddress.save()
   }
 }
@@ -38,7 +37,7 @@ function removeAddresses(addresses: Address[]): void {
 
 export function handleAddressesAdded(event: AddressesAdded): void {
   let addresses = event.params.addresses
-  addAddresses(addresses, 'Unknown')
+  addAddresses(addresses )
 }
 
 export function handleAddressesRemoved(event: AddressesRemoved): void {
