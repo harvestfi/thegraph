@@ -15,6 +15,8 @@ import {
 // schema imports
 import {
   ContractRegistryAddress,
+  Pool,
+  Vault
 } from "../generated/schema"
 
 import { store } from '@graphprotocol/graph-ts'
@@ -22,16 +24,24 @@ import { store } from '@graphprotocol/graph-ts'
 function addAddresses(addresses: Address[], contractType: string = ''): void {
   for (let i=0; i<addresses.length; i++) {
     let address = addresses[i]
-    let contractRegistryAddress = new ContractRegistryAddress(address.toString())
-    contractRegistryAddress.address = address;
-    if (contractType) contractRegistryAddress.contractType = contractType;
-    contractRegistryAddress.save()
+    let hexAddress = address.toHex()
+    let ra = new ContractRegistryAddress(hexAddress)
+    ra.address = address
+    if (contractType) ra.contractType = contractType
+
+    let pool = Pool.load(hexAddress)
+    if (pool) ra.pool = pool.id
+
+    let vault = Vault.load(hexAddress)
+    if (vault) ra.vault = vault.id
+
+    ra.save()
   }
 }
 function removeAddresses(addresses: Address[]): void {
   for (let i=0; i<addresses.length; i++) {
     let address = addresses[i]
-    store.remove('ContractRegistryAddress', address.toString())
+    store.remove('ContractRegistryAddress', address.toHex())
   }
 }
 
