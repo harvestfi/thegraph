@@ -87,6 +87,38 @@ dataSources:
           handler: handlePotNotifyPools
       file: ./src/PotNotifyHelperListener.ts
 
+  - kind: ethereum/contract
+    name: ContractRegistryListener
+    network: mainnet
+    source:
+      address: "0x917C638631AE4A59DE55B536319a103355439d81"
+      startBlock: 13197099
+      abi: ContractRegistry
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.4
+      language: wasm/assemblyscript
+      entities:
+        - ContractRegistryAddress
+      abis:
+        - name: ContractRegistry
+          file: ./abis/contracts/bookkeeper/ContractRegistry.sol/ContractRegistry.json
+      eventHandlers:
+        - event: AddressesAdded(address[])
+          handler: handleAddressesAdded
+        - event: AddressesRemoved(address[])
+          handler: handleAddressesRemoved
+        - event: PoolsAdded(address[])
+          handler: handlePoolsAdded
+        - event: PoolsRemoved(address[])
+          handler: handlePoolsRemoved
+        - event: VaultsAdded(address[])
+          handler: handleVaultsAdded
+        - event: VaultsRemoved(address[])
+          handler: handleVaultsRemoved
+      file: ./src/ContractRegistryListener.ts
+
+
 templates:
   - kind: ethereum/contract
     name: VaultListener
